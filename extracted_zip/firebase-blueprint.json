@@ -1,0 +1,87 @@
+{
+  "entities": {
+    "AppState": {
+      "title": "AppState",
+      "description": "User persistent application state and session memory",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "lastPath": {
+          "type": "string",
+          "maxLength": 1024
+        },
+        "activeTab": {
+          "type": "string",
+          "enum": ["files", "gdrive", "sync", "portal"]
+        },
+        "viewMode": {
+          "type": "string",
+          "enum": ["grid", "list"]
+        },
+        "sortBy": {
+          "type": "string",
+          "enum": ["name", "size", "modified"]
+        },
+        "sortAsc": {
+          "type": "boolean"
+        },
+        "lastActiveAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": ["id", "lastPath", "activeTab", "updatedAt"]
+    },
+    "ActivityLog": {
+      "title": "ActivityLog",
+      "description": "Log of actions performed in CloudKu NAS & Drive",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "actionType": {
+          "type": "string",
+          "enum": ["upload", "create_folder", "rename", "delete", "move", "copy", "transfer_drive", "preview", "login", "sync"]
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "details": {
+          "type": "string",
+          "maxLength": 1024
+        },
+        "path": {
+          "type": "string",
+          "maxLength": 1024
+        },
+        "itemCount": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["success", "failed", "pending"]
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      },
+      "required": ["id", "actionType", "title", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/app_state/{stateId}": {
+      "schema": "AppState",
+      "description": "Persistent session state ensuring app does not return to default on reload"
+    },
+    "/activity_logs/{logId}": {
+      "schema": "ActivityLog",
+      "description": "Persistent history of all actions performed in CloudKu"
+    }
+  }
+}

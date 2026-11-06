@@ -1,0 +1,38 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default-deny all collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidAppState(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.lastPath is string && data.lastPath.size() <= 1024 &&
+             data.activeTab in ['files', 'gdrive', 'sync', 'portal'];
+    }
+
+    function isValidActivityLog(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.actionType in ['upload', 'create_folder', 'rename', 'delete', 'move', 'copy', 'transfer_drive', 'preview', 'login', 'sync'] &&
+             data.title is string && data.title.size() <= 256;
+    }
+
+    match /app_state/{stateId} {
+      allow read: if isValidId(stateId);
+      allow create, update: if isValidId(stateId) && isValidAppState(request.resource.data);
+      allow delete: if false;
+    }
+
+    match /activity_logs/{logId} {
+      allow read: if isValidId(logId);
+      allow list: if true;
+      allow create: if isValidId(logId) && isValidActivityLog(request.resource.data);
+      allow update, delete: if false;
+    }
+  }
+}

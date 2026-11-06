@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cloudku @joko92m</title>
+    <meta name="description" content="Cloud Pribadi @joko92m" />
+    <meta property="og:title" content="Cloudku @joko92m" />
+    <meta property="og:description" content="Cloud Pribadi @joko92m" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      // Ignore HMR WebSocket connection errors in preview environments
+      window.addEventListener('error', function(e) {
+        if (
+          e.message && (
+            e.message.includes('WebSocket') ||
+            e.message.includes('createWebSocketModuleRunnerTransport') ||
+            e.message.includes('vite')
+          )
+        ) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+          return true;
+        }
+      }, true);
+      window.addEventListener('unhandledrejection', function(e) {
+        const msg = (e.reason && (e.reason.message || String(e.reason))) || '';
+        if (msg.includes('WebSocket') || msg.includes('createWebSocketModuleRunnerTransport') || msg.includes('vite')) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

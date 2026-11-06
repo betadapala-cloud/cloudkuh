@@ -1,0 +1,8 @@
+{
+  "name": "Cloudku @joko92m",
+  "description": "Cloud Pribadi @joko92m",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
